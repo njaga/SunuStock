@@ -6,10 +6,11 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "barryvdh/laravel-dompdf": "^2.1",
+        "dompdf/dompdf": "^2.0",
         "laravel/framework": "^11.0",
         "laravel/tinker": "^2.9",
-        "laravel/ui": "^4.5"
+        "laravel/ui": "^4.5",
+        "phpmailer/phpmailer": "^6.9"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

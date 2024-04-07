@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->integer('role')->default(0); // 'admin' pour les administrateurs
+            $table->integer('role')->default(0); 
             $table->string('avatar')->nullable(); // URL ou chemin vers l'image de l'avata
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

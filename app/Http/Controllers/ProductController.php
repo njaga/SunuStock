@@ -2,34 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
-use App\Models\Category; // Importez le modèle Category
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use App\Models\Product;
+use App\Models\Category;
+use App\Models\Supplier;
 
 class ProductController extends Controller
 {
-    /**
-     * Affiche une liste paginée des produits.
-     */
     public function index()
     {
-        //$products = Product::paginate(10); // Modifiez le nombre selon vos besoins
         $products = Product::all();
         return view('products.index', compact('products'));
     }
 
-    /**
-     * Montre le formulaire pour créer un nouveau produit.
-     */
-    public function create()
+    public function show($id)
     {
-        $categories = Category::all();
-        return view('products.create', compact('categories'));
+        $product = Product::findOrFail($id);
+        return view('products.show', compact('product'));
     }
 
-    /**
-     * Enregistre un nouveau produit dans la base de données.
-     */
+    public function create()
+    {
+        $categories = Category::all(); // Récupérez toutes les catégories disponibles
+        $suppliers = Supplier::all(); // Récupérez tous les fournisseurs disponibles
+        return view('products.create', compact('categories', 'suppliers'));
+    }
+
     public function store(Request $request)
     {
         // Valider les données du formulaire
@@ -39,43 +38,42 @@ class ProductController extends Controller
             'price' => 'required|numeric',
             'quantity' => 'required|numeric',
             'category_id' => 'required|exists:categories,id', // Assurez-vous que la catégorie sélectionnée existe
+            'supplier_id' => 'required|exists:suppliers,id', // Assurez-vous que le fournisseur sélectionné existe
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validation de l'image (facultatif)
         ]);
 
         // Créer un nouveau produit avec les données du formulaire
-        Product::create([
+        $product = new Product([
             'name' => $request->name,
             'description' => $request->description,
             'price' => $request->price,
             'quantity' => $request->quantity,
             'category_id' => $request->category_id, // Enregistrez l'ID de la catégorie sélectionnée
+            'supplier_id' => $request->supplier_id, // Enregistrez l'ID du fournisseur sélectionné
         ]);
 
+        // Enregistrez l'image si elle est téléchargée
+        if ($request->hasFile('image')) {
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->move(public_path('images'), $imageName);
+            $product->image = $imageName;
+        }
+
+        // Enregistrez le produit dans la base de données
+        $product->save();
+
         // Rediriger vers la page des produits avec un message de succès
-        return redirect()->route('products.index')->with('success', 'Produit ajouté avec succès.');
+        return redirect()->route('products.index')->with('success', 'Produit créé avec succès.');
     }
 
-    /**
-     * Affiche les détails d'un produit.
-     */
-    public function show($id)
-    {
-        $product = Product::findOrFail($id);
-        return view('products.show', compact('product'));
-    }
-
-    /**
-     * Montre le formulaire pour éditer un produit existant.
-     */
     public function edit($id)
     {
         $product = Product::findOrFail($id);
         $categories = Category::all(); // Récupérez toutes les catégories disponibles
-        return view('products.edit', compact('product', 'categories'));
+        $suppliers = Supplier::all(); // Récupérez tous les fournisseurs disponibles
+        return view('products.edit', compact('product', 'categories', 'suppliers'));
     }
 
-    /**
-     * Met à jour les informations d'un produit dans la base de données.
-     */
     public function update(Request $request, $id)
     {
         // Valider les données du formulaire
@@ -85,6 +83,8 @@ class ProductController extends Controller
             'price' => 'required|numeric',
             'quantity' => 'required|numeric',
             'category_id' => 'required|exists:categories,id', // Assurez-vous que la catégorie sélectionnée existe
+            'supplier_id' => 'required|exists:suppliers,id', // Assurez-vous que le fournisseur sélectionné existe
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validation de l'image (facultatif)
         ]);
 
         // Trouver le produit à mettre à jour
@@ -97,25 +97,40 @@ class ProductController extends Controller
             'price' => $request->price,
             'quantity' => $request->quantity,
             'category_id' => $request->category_id, // Enregistrez l'ID de la catégorie sélectionnée
+            'supplier_id' => $request->supplier_id, // Enregistrez l'ID du fournisseur sélectionné
         ]);
+
+        // Mettre à jour l'image si une nouvelle image est téléchargée
+        if ($request->hasFile('image')) {
+            // Supprimer l'ancienne image si elle existe
+            if ($product->image) {
+                Storage::delete('images/' . $product->image);
+            }
+            
+            // Télécharger la nouvelle image et mettre à jour le chemin dans la base de données
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->move(public_path('images'), $imageName);
+            $product->update(['image' => $imageName]);
+        }
 
         // Rediriger vers la page des produits avec un message de succès
         return redirect()->route('products.index')->with('success', 'Produit mis à jour avec succès.');
     }
 
-    /**
-     * Supprime un produit de la base de données.
-     */
     public function destroy($id)
     {
         // Trouver le produit à supprimer
         $product = Product::findOrFail($id);
 
-        // Supprimer le produit
+        // Supprimer l'image associée s'il en existe une
+        if ($product->image) {
+            Storage::delete('images/' . $product->image);
+        }
+
+        // Supprimer le produit de la base de données
         $product->delete();
 
         // Rediriger vers la page des produits avec un message de succès
         return redirect()->route('products.index')->with('success', 'Produit supprimé avec succès.');
     }
 }
-

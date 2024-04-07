@@ -75,4 +75,12 @@ class SupplierController extends Controller
 
         return redirect()->route('suppliers.index')->with('success', 'Fournisseur supprimé avec succès.');
     }
+
+    public function show($id)
+    {
+        $supplier = Supplier::findOrFail($id);
+        $products = $supplier->products; // Récupérer les produits associés à ce fournisseur
+        
+        return view('suppliers.show', compact('supplier', 'products'));
+    }
 }

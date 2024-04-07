@@ -9,42 +9,45 @@
 @section('content')
 <div class="container-fluid">
     <div class="row">
-        {{-- Sidebar inclusion --}}
-        @include('components.sidebar')
+        @include('components.sidebar') {{-- Sidebar inclusion --}}
 
-        {{-- Main content --}}
-        <div class="col-md-9 ml-sm-auto col-lg-10 px-md-4 py-md-5">
-            {{-- Product Name and Return Link --}}
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1 class="font-weight-bold">{{ $product->name }}</h1>
-                <a href="{{ route('products.index') }}" class="btn btn-outline-primary">
-                    <i class="fas fa-arrow-left"></i> Retour
+        <div class="col-lg-10 offset-lg-2 col-md-9 offset-md-3 px-4 py-5">
+            <div class="mb-5 d-flex justify-content-between align-items-center">
+                <h1 class="display-4">{{ $product->name }}</h1>
+                <a href="{{ route('products.index') }}" class="btn btn-link text-secondary">
+                    <i class="fas fa-arrow-left mr-2"></i>Retour aux produits
                 </a>
             </div>
 
-            {{-- Product Details in Boxes --}}
             <div class="row">
-                <div class="col-md-6 mb-4">
-                    <div class="card border-0 shadow-sm h-100">
-                        <div class="card-body">
-                            <h3 class="card-title text-secondary">Description</h3>
-                            <p class="card-text">{{ $product->description }}</p>
-                        </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="card shadow-sm">
+                        <img src="{{ asset('images/' . $product->image) }}" alt="Image du produit" class="card-img-top">
                     </div>
                 </div>
-                <div class="col-md-3 mb-4">
-                    <div class="card border-0 shadow-sm h-100 bg-primary text-white">
+                <div class="col-lg-8 mb-4">
+                    <div class="card shadow-sm">
                         <div class="card-body">
-                            <h3 class="card-title">Prix</h3>
-                            <h5 class="card-text">{{ $product->price }} CFA</h5>
+                            <h3 class="text-dark mb-3">Description</h3>
+                            <p>{{ $product->description }}</p>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-3 mb-4">
-                    <div class="card border-0 shadow-sm h-100 bg-info text-white">
-                        <div class="card-body">
-                            <h3 class="card-title">Quantité en Stock</h3>
-                            <H5 class="card-text">{{ $product->quantity }}</H5>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <div class="card text-white bg-primary shadow">
+                                <div class="card-body">
+                                    <h5 class="card-title">Prix</h5>
+                                    <p class="card-text">{{ $product->price }} CFA</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card text-white bg-info shadow">
+                                <div class="card-body">
+                                    <h5 class="card-title">Quantité en Stock</h5>
+                                    <p class="card-text">{{ $product->quantity }}</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -56,31 +59,48 @@
 
 @section('styles')
 <style>
-    h1.font-weight-bold {
-        color: #0056b3;
+    body, h1, h3, p, a {
+        font-family: 'Nunito', sans-serif; /* A more modern font */
     }
 
-    .btn-outline-primary {
-        border-color: #0056b3;
+    .display-4 {
+        font-weight: 700;
+        color: #343a40; /* Darker shade for better readability */
     }
 
-    .btn-outline-primary:hover {
-        background-color: #0056b3;
-        color: white;
+    .btn-link {
+        font-size: 1rem;
+        color: #007bff; /* Bootstrap primary */
+    }
+
+    .btn-link:hover {
+        color: #0056b3; /* Slightly darker on hover for effect */
+    }
+
+    .card {
+        border-radius: 0.5rem; /* Softer border radius */
+        border: none; /* Remove borders for a cleaner look */
+    }
+
+    .card-img-top {
+        border-top-left-radius: 0.5rem; /* Match card's border-radius */
+        border-top-right-radius: 0.5rem;
+    }
+
+    .card-body {
+        color: #495057; /* Dark grey for softer contrast */
+    }
+
+    .bg-primary, .bg-info {
+        box-shadow: 0 4px 6px rgba(0,0,0,.1); /* Subtle shadow for depth */
     }
 
     .card-title {
-        font-size: 1.25rem;
+        font-size: 1.5rem; /* Larger titles for emphasis */
     }
 
-    .card.border-0.shadow-sm {
-        border-radius: 0.75rem !important;
-    }
-
-    .card.border-0.shadow-sm h-100 {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
+    .card-text {
+        font-size: 1.2rem; /* Larger text for readability */
     }
 </style>
 @endsection

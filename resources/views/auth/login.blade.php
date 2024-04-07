@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -63,11 +64,16 @@
         .btn-info {
             background-color: #c30c29;
             border-color: #c30c29;
-                }
-                .btn-info:hover {
+        }
+        .btn-info:hover {
             background-color: #13a3e3;
             border-color: #13a3e3;
-                }
+        }
+        .error-message {
+            color: red;
+            text-align: center;
+            margin-bottom: 15px;
+        }
     </style>
     <title>Sunu Stock - Connexion</title>
 </head>
@@ -78,12 +84,14 @@
             <div class="login-container">
                 <img src="{{ asset('assets/img/logo-vigilus.png') }}" alt="Votre logo" class="mx-auto d-block">
                 <h2>Connexion</h2>
+                <!-- Zone d'affichage de l'erreur -->
+                <div id="error-message" class="error-message"></div>
                 <div class="form-group">
                     <input type="email" name="email" id="email" class="form-control" placeholder="Adresse Email" required>
                 </div>
                 <div class="form-group position-relative">
                     <input type="password" name="password" id="password" class="form-control" placeholder="Mot de passe" required>
-                    <span onclick="togglePasswordVisibility()" class="fa fa-fw fa-eye field-icon toggle-password" style="cursor: pointer; position: absolute; top: 50%; right: 10px; transform: translateY(-50%);"></span>
+                    <span onclick="togglePasswordVisibility()" class="fas fa-eye field-icon toggle-password" style="cursor: pointer; position: absolute; top: 50%; right: 10px; transform: translateY(-50%);"></span>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">Se connecter</button>
                 <div class="mt-3 text-center">
@@ -93,12 +101,6 @@
         </div>
     </form>
 
-    <div class="help-widget">
-        <button class="btn btn-info" onclick="toggleHelp()">Aide & Assistance</button>
-        <div id="helpContent" style="display: none;" class="mt-2 p-3 rounded bg-light">
-            Besoin d'aide ? Contactez le service client au +221 33 867 77 32.
-        </div>
-    </div>
 
     <script>
         function toggleHelp() {
@@ -110,6 +112,13 @@
             var passwordInput = document.getElementById('password');
             var type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
             passwordInput.setAttribute('type', type);
+            this.classList.toggle('fa-eye-slash');
+        }
+
+        // Exemple de fonction pour afficher un message d'erreur
+        function displayErrorMessage(message) {
+            var errorMessageDiv = document.getElementById('error-message');
+            errorMessageDiv.innerHTML = message;
         }
     </script>
 </body>

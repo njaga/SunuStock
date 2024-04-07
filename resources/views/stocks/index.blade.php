@@ -4,43 +4,25 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
+{{-- Assurez-vous que votre layout principal contient les sections @push('scripts') --}}
 @extends('layouts.app')
 
 @section('content')
 <div class="container-fluid">
     <div class="row">
-        {{-- Inclure le sidebar --}}
-        @include('components.sidebar')
-
+        @include('components.sidebar') {{-- Votre sidebar --}}
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4 py-md-5">
             <div class="row">
+                {{-- Exemple pour un diagramme de stock --}}
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-header bg-primary text-white">Gestion des Stocks</div>
                         <div class="card-body">
-                            <h2 class="card-title">Diagramme des Stocks</h2>
                             <canvas id="stockChart" width="400" height="200"></canvas>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header bg-success text-white">Historique des Stocks</div>
-                        <div class="card-body">
-                            <h2 class="card-title">Diagramme de l'Histoire des Stocks</h2>
-                            <canvas id="stockHistoryChart" width="400" height="200"></canvas>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card mt-4">
-                        <div class="card-header bg-warning text-white">Répartition des Produits par Catégorie</div>
-                        <div class="card-body">
-                            <h2 class="card-title">Diagramme de Répartition des Produits</h2>
-                            <canvas id="productCategoryChart" width="400" height="200"></canvas>
-                        </div>
-                    </div>
-                </div>
+                {{-- Répétez pour d'autres diagrammes selon vos données --}}
             </div>
         </main>
     </div>
@@ -51,15 +33,15 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    // Diagramme des stocks
+    // Exemple d'initialisation du diagramme des stocks
     const stockChartCtx = document.getElementById('stockChart').getContext('2d');
     new Chart(stockChartCtx, {
-        type: 'bar',
+        type: 'bar', // ou 'line', 'pie', etc. selon le type de diagramme souhaité
         data: {
-            labels: {!! json_encode($products->pluck('name')) !!},
+            labels: @json($products->pluck('name')), // Les noms des produits comme étiquettes
             datasets: [{
                 label: 'Quantité en Stock',
-                data: {!! json_encode($products->pluck('stock.quantity')) !!},
+                data: @json($products->pluck('quantity')), // Les quantités en stock pour chaque produit
                 backgroundColor: 'rgba(54, 162, 235, 0.5)',
                 borderColor: 'rgba(54, 162, 235, 1)',
                 borderWidth: 1
@@ -74,64 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     });
-
-    // Historique des stocks
-    const historyChartCtx = document.getElementById('stockHistoryChart').getContext('2d');
-    new Chart(historyChartCtx, {
-        type: 'line',
-        data: {
-            labels: {!! json_encode($stockEntries->keys()) !!},
-            datasets: [{
-                label: 'Quantité en Stock',
-                data: {!! json_encode($stockEntries->values()) !!},
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                borderColor: 'rgba(255, 99, 132, 1)',
-                borderWidth: 2,
-                fill: true
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-
-    // Répartition des produits par catégorie
-    const categoryChartCtx = document.getElementById('productCategoryChart').getContext('2d');
-    new Chart(categoryChartCtx, {
-        type: 'pie',
-        data: {
-            labels: {!! json_encode($productsByCategory->pluck('category')) !!},
-            datasets: [{
-                label: 'Répartition par Catégorie',
-                data: {!! json_encode($productsByCategory->pluck('product_count')) !!},
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255,99,132,1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true
-        }
-    });
+    // Ajoutez d'autres initialisations de diagrammes ici, en suivant le même modèle
 });
 </script>
 @endpush

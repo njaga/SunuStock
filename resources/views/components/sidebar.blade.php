@@ -12,19 +12,16 @@
       <a href="/categories" class="sidebar-item">
         <i class="fas fa-check-square"></i> Catégories produits
       </a>
-      <a href="/stock" class="sidebar-item">
-        <i class="fas fa-warehouse"></i> Stock
+      <a href="/stocks" class="sidebar-item">
+        <i class="fas fa-warehouse"></i> Rapport
       </a>
       <a href="/suppliers" class="sidebar-item">
         <i class="fas fa-truck-moving"></i> Fournisseurs
       </a>
       <a href="/invoices" class="sidebar-item">
-        <i class="fas fa-file-invoice-dollar"></i> Facturation
-      </a>
-      <a href="/orders" class="sidebar-item">
         <i class="fas fa-shopping-cart"></i> Commandes
       </a>
-      <a href="/settings" class="sidebar-item">
+      <a href="/users" class="sidebar-item">
         <i class="fas fa-cogs"></i> Paramètres
       </a>
     </div>

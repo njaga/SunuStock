@@ -1,65 +1,106 @@
-@extends('layouts.app')
-
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Reset Password') }}</div>
-
-                <div class="card-body">
-                    <form method="POST" action="{{ route('password.update') }}">
-                        @csrf
-
-                        <input type="hidden" name="token" value="{{ $token }}">
-
-                        <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                            </div>
-                        </div>
-
-                        <div class="row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Reset Password') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .login-container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 40px;
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.8); /* Fond semi-transparent */
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+        .login-container img {
+            max-width: 100px;
+            margin-bottom: 20px;
+        }
+        .login-container h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .form-control {
+            border-radius: 20px;
+            padding: 15px;
+            box-shadow: none;
+            border-color: #ccc;
+        }
+        .btn-primary {
+            background-color: #13a3e3;
+            border-color: #13a3e3;
+            border-radius: 20px;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .btn-primary:hover {
+            background-color: #c30c29;
+            border-color: #c30c29;
+        }
+        .btn-forgot-password {
+            font-size: 14px;
+            text-decoration: underline;
+        }
+        .btn-forgot-password:hover {
+            text-decoration: none;
+        }
+        .error-message {
+            color: red;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+    </style>
+    <title>Sunu Stock - Réinitialisation de mot de passe</title>
+</head>
+<body>
+    <form method="POST" action="{{ route('password.update') }}">
+        @csrf
+        <div class="container">
+            <div class="login-container">
+                <img src="{{ asset('assets/img/logo-vigilus.png') }}" alt="Votre logo" class="mx-auto d-block">
+                <h2>Réinitialisation de mot de passe</h2>
+                <!-- Zone d'affichage de l'erreur -->
+                <div id="error-message" class="error-message"></div>
+                <input type="hidden" name="token" value="{{ $token }}">
+                <div class="form-group">
+                    <input type="email" name="email" id="email" class="form-control" placeholder="Adresse Email" required>
+                </div>
+                <div class="form-group position-relative">
+                    <input type="password" name="password" id="password" class="form-control" placeholder="Nouveau mot de passe" required>
+                    <span onclick="togglePasswordVisibility()" class="fas fa-eye field-icon toggle-password" style="cursor: pointer; position: absolute; top: 50%; right: 10px; transform: translateY(-50%);"></span>
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password_confirmation" id="password-confirm" class="form-control" placeholder="Confirmer le nouveau mot de passe" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Réinitialiser le mot de passe</button>
+                <div class="mt-3 text-center">
+                    <a href="{{ route('login') }}" class="btn-forgot-password">Retour à la connexion</a>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-@endsection
+    </form>
+
+    <script>
+        function togglePasswordVisibility() {
+            var passwordInput = document.getElementById('password');
+            var type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.classList.toggle('fa-eye-slash');
+        }
+
+        // Exemple de fonction pour afficher un message d'erreur
+        function displayErrorMessage(message) {
+            var errorMessageDiv = document.getElementById('error-message');
+            errorMessageDiv.innerHTML = message;
+        }
+    </script>
+</body>
+</html>

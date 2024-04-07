@@ -1,4 +1,3 @@
-{{-- resources/views/invoices/create.blade.php --}}
 @extends('layouts.app')
 
 @section('content')

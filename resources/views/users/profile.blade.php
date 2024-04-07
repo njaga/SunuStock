@@ -1,9 +1,16 @@
+<head>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" rel="stylesheet">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+</head>
+
 @extends('layouts.app')
 
 @section('content')
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<div class="container-fluid">
+    <div class="row">
+        @include('components.sidebar')
+        <div class="col-md-6 offset-md-3 px-md-4 py-md-5">
             <div class="profile-card card shadow">
                 <div class="card-body">
                     <h3 class="card-title text-center mb-5">Modifier Les Paramètres De Mon Compte</h3>
@@ -13,7 +20,7 @@
                              alt="Avatar" style="width: 150px; height: 150px;">
                     </div>
 
-                    <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data" class="profile-form">
+                    <form action="{{ route('profil.update') }}" method="POST" enctype="multipart/form-data" class="profile-form">
                         @csrf
                         @method('PUT')
                         <div class="input-group mb-4">

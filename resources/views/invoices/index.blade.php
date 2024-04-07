@@ -13,7 +13,7 @@
 
         <div class="col-md-9 ml-sm-auto col-lg-10 px-md-4 py-md-5">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">Gestion des Factures</h1>
+                <h1 class="h2">Liste des commandes</h1>
                 <h5>Total : {{ count($invoices) }} Facture(s)</h5>
                 <div class="btn-toolbar mb-2 mb-md-0">
                     <button class="btn btn-sm btn-outline-primary" onclick="window.location='{{ route("invoices.create") }}'">
@@ -40,7 +40,9 @@
                                 <td>{{ $invoice->invoice_number }}</td>
                                 <td>{{ $invoice->client->name }}</td>
                                 <td>{{ $invoice->invoice_date }}</td>
-                                <td>{{ $invoice->total }}</td>
+                                <td>{{ $invoice->items->sum(function($item) {
+                                    return $item->quantity * $item->unit_price;
+                                }) }}</td>
 
                                 <td class="text">
                                     <a href="{{ route('invoices.show', ['invoice' => $invoice->id]) }}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i> Détails</a>

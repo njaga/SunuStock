@@ -1,7 +1,5 @@
 <?php
 
-// app/Http/Controllers/UserProfileController.php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -11,13 +9,22 @@ use Illuminate\Support\Facades\Storage;
 
 class UserProfileController extends Controller
 {
-    // Affichage du profil de l'utilisateur
+    /**
+     * Affichage du profil de l'utilisateur.
+     *
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
         return view('user.profile', ['user' => Auth::user()]);
     }
 
-    // Mise à jour du profil de l'utilisateur
+    /**
+     * Mise à jour du profil de l'utilisateur.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request)
     {
         $user = Auth::user();
@@ -49,7 +56,11 @@ class UserProfileController extends Controller
         return back()->with('status', 'Profil mis à jour avec succès.');
     }
 
-    // Suppression du compte de l'utilisateur
+    /**
+     * Suppression du compte de l'utilisateur.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function delete()
     {
         $user = Auth::user();
@@ -64,4 +75,3 @@ class UserProfileController extends Controller
         return redirect('/')->with('status', 'Compte supprimé avec succès.');
     }
 }
-
