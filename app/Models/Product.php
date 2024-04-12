@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Category;
 use App\Models\Stock;
 
 class Product extends Model
@@ -22,11 +23,11 @@ class Product extends Model
 
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class, 'category_id'); // Spécifier la clé étrangère
     }
 
     public function stock()
     {
-        return $this->hasOne(Stock::class); 
+        return $this->hasOne(Stock::class, 'product_id'); // Spécifier la clé étrangère
     }
 }

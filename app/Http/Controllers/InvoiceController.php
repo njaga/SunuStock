@@ -32,12 +32,13 @@ class InvoiceController extends Controller
             'items.*.product_id' => 'required|exists:products,id',
             'items.*.quantity' => 'required|integer|min:1',
             'items.*.unit_price' => 'required|numeric|min:0.01',
+            'total_amount' => 'required|numeric|min:0.01', // Ajout de la validation pour total_amount
         ]);
 
         $invoiceNumber = $this->generateInvoiceNumber();
 
         $invoice = Invoice::create(array_merge(
-            $request->only(['client_id', 'invoice_date', 'due_date']),
+            $request->only(['client_id', 'invoice_date', 'due_date', 'total_amount']), // Ajout de 'total_amount'
             ['invoice_number' => $invoiceNumber]
         ));
 

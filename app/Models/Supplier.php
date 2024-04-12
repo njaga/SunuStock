@@ -16,7 +16,7 @@ class Supplier extends Model
     /**
      * Mettre à jour le compteur de produits du fournisseur.
      */
-    public function updateProductCount()
+    public function updateProductsCount()
     {
         $productCount = Product::where('supplier_id', $this->id)->count();
         $this->update(['products_count' => $productCount]);

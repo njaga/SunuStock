@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" rel="stylesheet">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -14,7 +16,7 @@
             margin: 0 auto;
             padding: 40px;
             border-radius: 8px;
-            background-color: rgba(255, 255, 255, 0.8); /* Fond semi-transparent */
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
             box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
             margin-top: 50px;
         }
@@ -52,46 +54,34 @@
         .btn-forgot-password:hover {
             text-decoration: none;
         }
-        .help-widget {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-        }
-        .help-widget .btn {
-            border-radius: 30px;
-            padding: 10px 20px;
-        }
-        .btn-info {
-            background-color: #c30c29;
-            border-color: #c30c29;
-        }
-        .btn-info:hover {
-            background-color: #13a3e3;
-            border-color: #13a3e3;
-        }
         .error-message {
             color: red;
             text-align: center;
             margin-bottom: 15px;
         }
     </style>
-    <title>Sunu Stock - Connexion</title>
 </head>
 <body>
+@extends('layouts.app')
+
+@section('content')
     <form method="POST" action="{{ route('login') }}">
         @csrf
         <div class="container">
             <div class="login-container">
-                <img src="{{ asset('assets/img/logo-vigilus.png') }}" alt="Votre logo" class="mx-auto d-block">
+                <img src="{{ asset('assets/img/logo-vigilus.png') }}" alt="Logo" class="mx-auto d-block">
                 <h2>Connexion</h2>
-                <!-- Zone d'affichage de l'erreur -->
-                <div id="error-message" class="error-message"></div>
+                @if($errors->any())
+                    <div class="error-message">
+                        {{ __('auth.failed') }} <!-- Ensure this key exists in resources/lang/fr/auth.php -->
+                    </div>
+                @endif
                 <div class="form-group">
                     <input type="email" name="email" id="email" class="form-control" placeholder="Adresse Email" required>
                 </div>
                 <div class="form-group position-relative">
                     <input type="password" name="password" id="password" class="form-control" placeholder="Mot de passe" required>
-                    <span onclick="togglePasswordVisibility()" class="fas fa-eye field-icon toggle-password" style="cursor: pointer; position: absolute; top: 50%; right: 10px; transform: translateY(-50%);"></span>
+                    <span class="fas fa-eye field-icon toggle-password" style="cursor: pointer; position: absolute; top: 50%; right: 10px; transform: translateY(-50%);"></span>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">Se connecter</button>
                 <div class="mt-3 text-center">
@@ -101,25 +91,19 @@
         </div>
     </form>
 
-
     <script>
-        function toggleHelp() {
-            var helpContent = document.getElementById('helpContent');
-            helpContent.style.display = helpContent.style.display === 'none' ? 'block' : 'none';
-        }
-
-        function togglePasswordVisibility() {
-            var passwordInput = document.getElementById('password');
-            var type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordInput.setAttribute('type', type);
-            this.classList.toggle('fa-eye-slash');
-        }
-
-        // Exemple de fonction pour afficher un message d'erreur
-        function displayErrorMessage(message) {
-            var errorMessageDiv = document.getElementById('error-message');
-            errorMessageDiv.innerHTML = message;
-        }
+        document.addEventListener('DOMContentLoaded', function () {
+            const togglePassword = document.querySelector('.toggle-password');
+            const passwordInput = document.getElementById('password');
+            
+            togglePassword.addEventListener('click', function () {
+                const type = passwordInput.type === 'password' ? 'text' : 'password';
+                passwordInput.type = type;
+                this.classList.toggle('fa-eye-slash');
+            });
+        });
     </script>
+@endsection
+
 </body>
 </html>

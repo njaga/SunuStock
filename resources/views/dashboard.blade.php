@@ -72,7 +72,7 @@
                             <div class="card-body">
                                 <i class="fas fa-file-invoice-dollar dashboard-icon"></i>
                                 <div class="dashboard-number">{{ $invoicesCount }}</div>
-                                <div class="dashboard-text">Facturation</div>
+                                <div class="dashboard-text">Factures</div>
                             </div>
                         </a>
                     </div>
