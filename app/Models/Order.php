@@ -3,26 +3,28 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Order extends Model
 {
-    use HasFactory;
+    protected $fillable = ['order_date', 'supplier_id', 'total_price'];
 
-    protected $fillable = [
-        'date',
-        'status',
-        'client_id',
-        // Ajoutez d'autres champs ici selon votre schéma de base de données
-    ];
-
-    public function client()
+    public function items()
     {
-        return $this->belongsTo(Client::class);
+        return $this->hasMany(OrderDetail::class, 'order_id');
     }
 
-    public function orderDetails()
+    public function calculateTotalPrice()
     {
-        return $this->hasMany(OrderDetail::class);
+        $total = 0;
+        foreach ($this->items as $item) {
+            $total += $item->quantity * $item->unit_price;
+        }
+        $this->total_price = $total;
+        $this->save();
     }
+
+        public function supplier()
+        {
+            return $this->belongsTo(Supplier::class); 
+        }
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Product;
 
 class Supplier extends Model
 {
@@ -18,7 +19,7 @@ class Supplier extends Model
      */
     public function updateProductsCount()
     {
-        $productCount = Product::where('supplier_id', $this->id)->count();
+        $productCount = $this->products()->count();
         $this->update(['products_count' => $productCount]);
     }
 }

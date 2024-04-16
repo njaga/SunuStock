@@ -1,121 +1,87 @@
-    <?php
+<?php
 
-    use Illuminate\Support\Facades\Route;
-    use Illuminate\Support\Facades\Auth;
-    use App\Http\Controllers\HomeController;
-    use App\Http\Controllers\UserProfileController;
-    use App\Http\Controllers\SupplierController;
-    use App\Http\Controllers\Auth\LoginController; 
-    use App\Http\Controllers\ClientController;
-    use App\Http\Controllers\ProductController;
-    use App\Http\Controllers\StockController;
-    use App\Http\Controllers\BillingController;
-    use App\Http\Controllers\OrderController;
-    use App\Http\Controllers\SettingsController;
-    use App\Http\Controllers\InvoiceController;
-    use App\Http\Controllers\ReportsController;
-    use App\Http\Controllers\TransactionsController;
-    use App\Http\Controllers\UserController;
-    use App\Http\Controllers\Auth\ForgotPasswordController;
-    use App\Http\Controllers\Auth\ResetPasswordController;
-    use App\Http\Controllers\CategoryController;
-    use App\Http\Controllers\DashboardController;
-    use App\Http\Controllers\FilesController;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\Auth\LoginController; 
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\StockController;
+use App\Http\Controllers\BillingController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\ReportsController;
+use App\Http\Controllers\TransactionsController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FilesController;
+use App\Http\Controllers\EntrepriseController;
+use Illuminate\Support\Facades\Storage; 
 
-    // Authentification
-    Route::get('/', function () {
-        return view('auth.login');
-    })->name('login');
+// Authentication Routes
+Route::get('/', function () {
+    return view('auth.login');
+})->name('login');
+Auth::routes();
 
-    Auth::routes();
+// Authenticated routes
+Route::middleware('auth')->group(function () {
+    // Home
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-    // Accueil
-    Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware('auth');
-
-    // Profil utilisateur
+    // User Profile
     Route::get('/profile', function () {
         return view('users.profile');
-    })->middleware('auth')->name('profile');
+    })->name('profile');
 
-    // Tableau de bord et fournisseurs, avec Middleware Auth dans un groupe
-    Route::middleware('auth')->group(function () {
-        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-        Route::resource('suppliers', SupplierController::class);
+    // Dashboard and Resources
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('suppliers', SupplierController::class);
+    Route::resource('users', UserController::class);
+    Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+    Route::resource('clients', ClientController::class);
+    Route::get('/search-clients', [ClientController::class, 'search'])->name('clients.search');
+    Route::resource('products', ProductController::class);
+    Route::resource('categories', CategoryController::class);
+    Route::resource('orders', OrderController::class);
+    Route::resource('invoices', InvoiceController::class);
+    Route::get('/invoices/{id}/download-pdf', [InvoiceController::class, 'downloadPDF'])->name('invoices.downloadPDF');
+    Route::resource('reports', ReportsController::class);
+    Route::resource('transactions', TransactionsController::class);
+    Route::get('/stocks', [StockController::class, 'index'])->name('stocks.index');
+    Route::get('/stock/history', [StockController::class, 'history'])->name('stock.history');
+    Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
+    Route::post('/settings/update', [SettingsController::class, 'update'])->name('settings.update');
+    Route::get('/billing', [BillingController::class, 'index'])->name('billing');
 
-        // Utilisateurs
-        Route::resource('users', UserController::class);
+    // User profile routes
+    Route::get('/profil', [UserProfileController::class, 'index'])->name('profil.index');
+    Route::put('/profil/update', [UserProfileController::class, 'update'])->name('profil.update');
+    Route::delete('/profil/delete', [UserProfileController::class, 'delete'])->name('profil.delete');
 
-        // Clients
-        Route::resource('clients', ClientController::class);
-        Route::get('/search-clients', [ClientController::class, 'search'])->name('clients.search');
+    // Enterprise information
+    Route::get('/entreprise/edit', [EntrepriseController::class, 'edit'])->name('entreprise.edit');
+    Route::post('/entreprise/update', [EntrepriseController::class, 'update'])->name('entreprise.update');
 
-        // Produits
-        Route::resource('products', ProductController::class);
-        Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
+    // Serve logo files
+    Route::get('/logos/{filename}', function ($filename) {
+        $path = storage_path('app/public/logos/' . $filename);
+        if (!File::exists($path)) {
+            abort(404);
+        }
+        $file = File::get($path);
+        $type = File::mimeType($path);
+        return response($file, 200)->header("Content-Type", $type);
+    })->name('logo.file');
 
-        // Catégories
-        Route::resource('categories', CategoryController::class);
+});
 
-        // Commandes
-        Route::resource('orders', OrderController::class);
-
-        // Factures
-        Route::resource('invoices', InvoiceController::class);
-        Route::get('/invoices/{id}/download-pdf', [InvoiceController::class, 'downloadPDF'])->name('invoices.downloadPDF');
-
-        // Rapports
-        Route::resource('reports', ReportsController::class);
-
-        // Transactions
-        Route::resource('transactions', TransactionsController::class);
-
-        // Gestion des stocks
-        Route::get('/stocks', [StockController::class, 'index'])->name('stocks.index');
-        Route::get('/stock/history', [StockController::class, 'history'])->name('stock.history');
-
-        // Paramètres
-        Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
-
-        // Facturation
-        Route::get('/billing', [BillingController::class, 'index'])->name('billing');
-    });
-
-    // Déconnexion
-    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-
-    // Route pour afficher le formulaire de connexion
-    Route::get('/login', 'App\Http\Controllers\Auth\LoginController@showLoginForm')->name('login');
-
-    // Route pour soumettre le formulaire de connexion
-    Route::post('/login', 'App\Http\Controllers\Auth\LoginController@login');
-
-    Route::middleware(['auth'])->group(function () {
-        // Affichage du profil de l'utilisateur
-        Route::get('/profil', [UserProfileController::class, 'index'])->name('profil.index');
-
-        // Mise à jour du profil de l'utilisateur
-        Route::put('/profil/update', [UserProfileController::class, 'update'])->name('profil.update');
-
-        // Suppression du compte de l'utilisateur
-        Route::delete('/profil/delete', [UserProfileController::class, 'delete'])->name('profil.delete');
-    });
-
-
-    // Afficher le formulaire de demande de réinitialisation de mot de passe
-    Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
-
-    // Envoyer l'e-mail de réinitialisation de mot de passe
-    Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
-
-    // Afficher le formulaire de réinitialisation de mot de passe
-    Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
-
-    // Réinitialiser le mot de passe
-    Route::get('/passwords/reset/{token}', 'App\Http\Controllers\Auth\ResetPasswordController@showResetForm')->name('passwords.reset');
-
-    // Route pour afficher le formulaire de demande de réinitialisation de mot de passe
-    Route::get('/password/reset', function () {
-        return view('auth.passwords.password-request');
-    })->name('password.request');
-
-
+// Logout Route
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');

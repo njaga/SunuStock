@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-header"><h4>Créer un bon de commande fournisseur</h4></div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('orders.store') }}">
+                    <form method="POST" action="{{ route('orders.store') }}" id="order-form">
                         @csrf
 
                         {{-- Sélection du fournisseur --}}
@@ -21,22 +21,19 @@
                             </select>
                         </div>
 
-                        {{-- Date de la commande --}}
+                        {{-- Détails de la commande --}}
                         <div class="form-group">
-                            <label for="order_date">Date de la commande:</label>
+                            <label for="order_date">Date de commande:</label>
                             <input type="date" name="order_date" id="order_date" class="form-control" required>
                         </div>
 
-                        {{-- Conteneur pour les éléments ajoutés dynamiquement --}}
-                        <div id="order-items-container">
-                            {{-- Les éléments ajoutés apparaitront ici --}}
-                        </div>
-
-                        {{-- Bouton d'ajout d'article --}}
-                        <button type="button" id="add-item" class="btn btn-secondary">Ajouter un article</button>
+                        {{-- Articles de la commande --}}
+                        <h5>Articles</h5>
+                        <div id="order-items-container"></div>
+                        <button type="button" id="add-item" class="btn btn-secondary mt-2">Ajouter un Article</button>
 
                         {{-- Bouton de soumission --}}
-                        <div class="text-right mt-3">
+                        <div class="text-right mt-4">
                             <button type="submit" class="btn btn-primary">Créer Commande</button>
                         </div>
                     </form>
@@ -70,7 +67,7 @@
                 <input type="number" name="items[${index}][quantity]" class="form-control quantity-input" placeholder="Quantité" required min="1">
             </div>
             <div class="col-3">
-                <input type="number" name="items[${index}][unit_price]" class="form-control unit-price-input" placeholder="Prix unitaire" required readonly>
+                <input type="number" name="items[${index}][unit_price]" class="form-control unit-price-input" placeholder="Prix unitaire" required min="0.01" step="0.01">
             </div>
             <div class="col-2">
                 <button type="button" class="btn btn-danger remove-item">X</button>

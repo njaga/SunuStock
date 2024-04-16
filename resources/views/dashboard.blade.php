@@ -13,7 +13,7 @@
         {{-- Main content area --}}
         {{-- Main content area --}}
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-            <div class="pt-3 pb-2 mb-3">
+            <div class="pt-3 pb-2 mb-3 dashboard">
                 <h1>Tableau de Bord</h1>
                 <div class="row">
                     {{-- Carte Clients --}}
@@ -62,7 +62,7 @@
                             <div class="card-body">
                                 <i class="fas fa-scroll dashboard-icon"></i>
                                 <div class="dashboard-number">{{ $ordersCount }}</div>
-                                <div class="dashboard-text">Commandes</div>
+                                <div class="dashboard-text">Approvisionnement</div>
                             </div>
                         </a>
                     </div>
@@ -72,31 +72,10 @@
                             <div class="card-body">
                                 <i class="fas fa-file-invoice-dollar dashboard-icon"></i>
                                 <div class="dashboard-number">{{ $invoicesCount }}</div>
-                                <div class="dashboard-text">Factures</div>
+                                <div class="dashboard-text">Ventes</div>
                             </div>
                         </a>
                     </div>
-                    {{-- Carte Rapports --}}
-                    <div class="col-md-4">
-                        <a href="{{ route('reports.index') }}" class="card dashboard-card text-white text-decoration-none text-center mb-3">
-                            <div class="card-body">
-                                <i class="fas fa-chart-line dashboard-icon"></i>
-                                <div class="dashboard-number">{{ $reportsCount }}</div>
-                                <div class="dashboard-text">Rapports</div>
-                            </div>
-                        </a>
-                    </div>
-                    {{-- Carte Achats et Ventes --}}
-                    <div class="col-md-4">
-                        <a href="{{ route('transactions.index') }}" class="card dashboard-card text-white text-decoration-none text-center mb-3">
-                            <div class="card-body">
-                                <i class="fas fa-exchange-alt dashboard-icon"></i>
-                                <div class="dashboard-number">{{ $transactionsCount }}</div>
-                                <div class="dashboard-text">Transactions</div>
-                            </div>
-                        </a>
-                    </div>
-                    {{-- Ajoutez plus de cartes si nécessaire --}}
                 </div>
             </div>
         </main>
@@ -106,6 +85,12 @@
 
 @push('styles')
 <style>
+    .dashboard{
+        margin-top: 20px;
+    }
+    h1{
+        margin-bottom: 20px;
+    }
     .dashboard-card {
         background-color: #cc0000;
         margin-bottom: 20px;
@@ -123,6 +108,5 @@
     .dashboard-text {
         font-size: 1rem;
     }
-    /* Additional custom styles if needed */
 </style>
 @endpush

@@ -13,8 +13,8 @@
 
         <div class="col-md-9 ml-sm-auto col-lg-10 px-md-4 py-md-5">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">Liste des commandes</h1>
-                <h5>Total : {{ count($invoices) }} Facture(s)</h5>
+                <h1 class="h2">Liste des ventes</h1>
+                <h5>Total : {{ count($invoices) }} Facture(s) créées</h5>
                 <div class="btn-toolbar mb-2 mb-md-0">
                     <button class="btn btn-sm btn-outline-primary" onclick="window.location='{{ route("invoices.create") }}'">
                         <i class="fas fa-plus"></i> Créer une Facture
@@ -45,7 +45,8 @@
                                 }) }}</td>
 
                                 <td class="text">
-                                    <a href="{{ route('invoices.show', ['invoice' => $invoice->id]) }}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i> Détails</a>
+                                    <a href="{{ route('invoices.show', ['invoice' => $invoice->id]) }}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i> Facture</a>
+                                    <a href="{{ route('invoices.edit', ['invoice' => $invoice->id]) }}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i> Modifier</a>
                                     <button onclick="deleteInvoice({{ $invoice->id }})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Supprimer</button>
                                 </td>
                             </tr>

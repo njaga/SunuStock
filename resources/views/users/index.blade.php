@@ -27,8 +27,9 @@
                     <table class="table table-hover">
                         <thead class="thead-light">
                             <tr>
-                                <th>Nom</th>
+                                <th>Nom de l'utilisateur</th>
                                 <th>Email</th>
+                                <th>Rôle</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -37,6 +38,7 @@
                             <tr data-user-id="{{ $user->id }}">
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
+                                <td>{{ $user->role == 1 ? 'Administrateur' : 'Utilisateur' }}</td>
                                 <td class="text">
                                     <a href="{{ route('users.edit', ['user' => $user->id]) }}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i> Modifier</a>
                                     <button onclick="deleteUser({{ $user->id }})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Supprimer</button>

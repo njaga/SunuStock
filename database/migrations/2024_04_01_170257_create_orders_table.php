@@ -10,7 +10,6 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('client_id')->constrained()->onDelete('cascade');
             $table->date('order_date');
             $table->string('status')->default('pending');
             $table->timestamps();

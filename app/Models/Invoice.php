@@ -11,17 +11,18 @@ class Invoice extends Model
         'invoice_date',
         'due_date',
         'client_id',
-        'total_amount', // Nouvelle colonne
-        'products_count', // Nouvelle colonne
+        'total_amount',  // Assurez-vous que cette colonne est ajoutée à la base de données
+        'products_count' // Assurez-vous que cette colonne est ajoutée à la base de données
     ];
 
     protected static function boot()
     {
         parent::boot();
 
+        // Cette méthode est appelée à chaque fois qu'une facture est créée
         static::created(function ($invoice) {
-            // Mettre à jour le nombre de commandes du client associé
-            $invoice->client->refreshOrdersCount();
+            // Nous allons mettre à jour le compteur de produits pour le client associé, pas le nombre de commandes
+            $invoice->refreshProductsCount();
         });
     }
 
@@ -33,5 +34,15 @@ class Invoice extends Model
     public function items()
     {
         return $this->hasMany(InvoiceItem::class);
+    }
+
+    /**
+     * Mettre à jour le compteur de produits pour cette facture.
+     */
+    public function refreshProductsCount()
+    {
+        // Mise à jour du compteur de produits basé sur le nombre d'items de la facture
+        $this->products_count = $this->items()->count();
+        $this->save();
     }
 }

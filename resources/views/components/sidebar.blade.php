@@ -6,6 +6,9 @@
       <a href="/clients" class="sidebar-item">
         <i class="fas fa-users"></i> Clients
       </a>
+      <a href="/invoices" class="sidebar-item">
+        <i class="fas fa-shopping-cart"></i> Ventes
+      </a>
       <a href="/products" class="sidebar-item">
         <i class="fas fa-boxes"></i> Produits
       </a>
@@ -18,10 +21,11 @@
       <a href="/suppliers" class="sidebar-item">
         <i class="fas fa-truck-moving"></i> Fournisseurs
       </a>
-      <a href="/invoices" class="sidebar-item">
-        <i class="fas fa-shopping-cart"></i> Commandes
+
+      <a href="/orders" class="sidebar-item">
+        <i class="fas fa-dolly"></i> Approvisionnement
       </a>
-      <a href="/users" class="sidebar-item">
+      <a href="/settings" class="sidebar-item">
         <i class="fas fa-cogs"></i> Paramètres
       </a>
     </div>
