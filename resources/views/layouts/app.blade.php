@@ -93,6 +93,7 @@
     </div>
 
     <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5+z7GmG/EAkqjG8anssAPtUy3K8pDxfOgY8yJ0Bb" crossorigin="anonymous"></script>
     <script src="{{ asset('js/app.js') }}" defer></script>
     @stack('scripts')
 </body>

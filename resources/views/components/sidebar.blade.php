@@ -42,8 +42,8 @@
       background-color: #003366;
       color: white;
       padding-top: 20px;
-      position: fixed; /* Make it fixed for responsive behavior */
-      transition: transform 0.3s ease; /* Add transition for smooth animations */
+      position: fixed; 
+      transition: transform 0.3s ease; 
     }
   
     .sidebar-heading {
@@ -85,15 +85,29 @@
       margin-right: 10px;
     }
   
-    /* Media queries for responsive behavior */
     @media (max-width: 768px) {
       .sidebar {
-        transform: translateX(-100%); /* Hide sidebar initially on small screens */
+        transform: translateX(-100%); 
       }
   
       .sidebar.active {
-        transform: translateX(0); /* Show sidebar on click on small screens */
+        transform: translateX(0); 
       }
     }
   </style>
   
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+
+      const path = window.location.pathname;
+      const items = document.querySelectorAll('.sidebar-item');
+  
+      items.forEach(item => {
+        if (item.getAttribute('href') === path) {
+          item.classList.add('active'); 
+        } else {
+          item.classList.remove('active'); 
+        }
+      });
+    });
+  </script>
