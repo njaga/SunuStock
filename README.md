@@ -30,25 +30,25 @@ Intéressé à contribuer ? Consultez notre [dépôt GitHub](https://github.com/
 
 ### Installation locale
 
-1. **Cloner le dépôt GitHub :** Commencez par cloner le dépôt GitHub sur votre machine locale en utilisant la commande suivante dans votre terminal : 
+1. **Cloner le dépôt GitHub :** Commencez par cloner le dépôt GitHub sur votre machine locale en utilisant la commande suivante dans votre terminal : <br>
 git clone https://github.com/njaga/SunuStock.git
 
-2. **Installer les dépendances :** Naviguez vers le répertoire fraîchement cloné et installez les dépendances en exécutant la commande suivante : 
+2. **Installer les dépendances :** Naviguez vers le répertoire fraîchement cloné et installez les dépendances en exécutant la commande suivante : <br>
 cd SunuStock <br>
 composer install
 
 4. **Configurer l'environnement :** Créez un fichier `.env` à la racine du projet en copiant `.env.example` et configurez les variables d'environnement nécessaires telles que les informations de connexion à la base de données.
 
-5. **Générer la clé d'application :** Exécutez la commande suivante pour générer une nouvelle clé d'application :
+5. **Générer la clé d'application :** Exécutez la commande suivante pour générer une nouvelle clé d'application :<br>
 php artisan key:generate
 
-6. **Migrer la base de données :** Exécutez les migrations pour créer les tables de base de données en utilisant la commande suivante :
+6. **Migrer la base de données :** Exécutez les migrations pour créer les tables de base de données en utilisant la commande suivante :<br>
 php artisan migrate
 
-7. **Lancer l'application :** Lancez l'application en utilisant la commande suivante :
+7. **Lancer l'application :** Lancez l'application en utilisant la commande suivante :<br>
 php artisan serve
 
-8. **Accéder à l'application :** L'application sera maintenant accessible à l'adresse suivante dans votre navigateur web : `http://localhost:8000`.
+8. **Accéder à l'application :** L'application sera maintenant accessible à l'adresse suivante dans votre navigateur web : <br> `http://localhost:8000`.
 
 ### Déploiement en production
 
