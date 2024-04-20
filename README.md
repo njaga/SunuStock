@@ -18,7 +18,7 @@ Caractéristiques clés :
 - **Outils de reporting :** Rapports complets offrant des perspectives sur les tendances des ventes, les niveaux de stock et le statut des commandes.
 - **Accès multi-utilisateur :** Contrôle d'accès basé sur les rôles pour gérer efficacement les permissions des utilisateurs.
 
-Notre logiciel utilise les dernières technologies web pour garantir une expérience utilisateur fluide et évolutive.
+Notre logiciel utilise les dernières technologies web pour garantir une expérience utilisateur fluide et évolutive, notamment PHP avec Laravel, Bootstrap, CSS, DomPDF, JavaScript et Chart.js.
 
 ## Apprendre à propos de notre projet
 
@@ -30,44 +30,46 @@ Intéressé à contribuer ? Consultez notre [dépôt GitHub](https://github.com/
 
 ### Installation locale
 
-1. **Cloner le dépôt GitHub :** Commencez par cloner le dépôt GitHub sur votre machine locale en utilisant la commande suivante dans votre terminal : git clone https://github.com/njaga/SunuStock.git
+1. **Cloner le dépôt GitHub :** Commencez par cloner le dépôt GitHub sur votre machine locale en utilisant la commande suivante dans votre terminal : 
+git clone https://github.com/njaga/SunuStock.git
+
 2. **Installer les dépendances :** Naviguez vers le répertoire fraîchement cloné et installez les dépendances en exécutant la commande suivante : 
 cd SunuStock
-npm install
-3. **Configurer l'environnement :** Créez un fichier `.env` à la racine du projet et configurez les variables d'environnement nécessaires telles que les clés d'API, les informations de base de données, etc.
-4. **Lancer l'application :** Une fois les dépendances installées et l'environnement configuré, démarrez l'application en exécutant la commande suivante : npm start
-5. **Accéder à l'application :** L'application sera maintenant accessible à l'adresse suivante dans votre navigateur web : `http://localhost:3000`.
+composer install
+
+3. **Configurer l'environnement :** Créez un fichier `.env` à la racine du projet en copiant `.env.example` et configurez les variables d'environnement nécessaires telles que les informations de connexion à la base de données.
+
+4. **Générer la clé d'application :** Exécutez la commande suivante pour générer une nouvelle clé d'application :
+php artisan key:generate
+
+5. **Migrer la base de données :** Exécutez les migrations pour créer les tables de base de données en utilisant la commande suivante :
+php artisan migrate
+
+6. **Lancer l'application :** Lancez l'application en utilisant la commande suivante :
+php artisan serve
+
+7. **Accéder à l'application :** L'application sera maintenant accessible à l'adresse suivante dans votre navigateur web : `http://localhost:8000`.
 
 ### Déploiement en production
 
-1. **Configuration du serveur :** Assurez-vous d'avoir un serveur web configuré avec Node.js et MongoDB installés. Configurez également un proxy inversé si nécessaire pour rediriger les requêtes HTTP vers l'application.
-2. **Transférer les fichiers :** Transférez les fichiers de l'application vers le serveur en utilisant des outils comme FTP ou SSH.
-3. **Installer les dépendances :** Sur le serveur, accédez au répertoire de l'application et installez les dépendances en exécutant la commande suivante : npm install --production
-4. **Configurer l'environnement :** Configurez les variables d'environnement sur le serveur, généralement en utilisant un fichier `.env` ou des variables d'environnement système.
-5. **Démarrer l'application :** Lancez l'application en mode production en utilisant la commande suivante : npm start
-6. **Accès à l'application :** Une fois l'application lancée, elle sera accessible via l'adresse IP ou le nom de domaine de votre serveur, sur le port spécifié ou via un proxy configuré.
+Pour le déploiement en production, veuillez suivre les étapes recommandées pour déployer une application Laravel.
 
 ## Remerciements à nos sponsors et supporters
-Nous sommes reconnaissants pour le soutien de [Nom de votre université] et de divers partenaires industriels qui ont fourni des conseils et des ressources, aidant à faire de ce projet un succès.
+
+Nous sommes reconnaissants pour le soutien de HEMI et de Vigilus qui ont fourni des conseils et des ressources, aidant à faire de ce projet un succès.
 
 ## Contribuer
+
 Vous souhaitez contribuer à notre logiciel de gestion de stock ? Nous accueillons les contributions d'autres étudiants et membres du corps professoral. Retrouvez nos directives de contribution sur notre [page GitHub](https://github.com/njaga/SunuStock#contributing).
 
 ## Code de conduite
+
 Pour maintenir une communauté accueillante et inclusive, veuillez lire et respecter notre [Code de conduite](https://github.com/njaga/SunuStock#code-of-conduct).
 
 ## Vulnérabilités de sécurité
+
 Si vous découvrez une vulnérabilité de sécurité, veuillez nous en informer via [notre email](mailto:sunu-stock@ndiagandiaye.com). Nous aborderons ces problèmes promptement.
 
 ## Licence
+
 Ce logiciel de gestion de stock est un logiciel open-source disponible sous la [licence MIT](https://opensource.org/licenses/MIT).
-
-
-
-
-
-
-
-
-
-
