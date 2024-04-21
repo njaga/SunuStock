@@ -124,18 +124,23 @@ class ProductController extends Controller
     {
         // Trouver le produit à supprimer
         $product = Product::findOrFail($id);
-
+    
+        // Vérifier si l'utilisateur connecté est un administrateur
+        if (auth()->user()->role !== 1 && auth()->user()->role !== 'admin') {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+    
         // Supprimer l'image associée s'il en existe une
         if ($product->image) {
             Storage::delete('images/' . $product->image);
         }
-
+    
         // Supprimer le produit de la base de données
         $product->delete();
-
+    
         // Rediriger vers la page des produits avec un message de succès
         return redirect()->route('products.index')->with('success', 'Produit supprimé avec succès.');
-    }
+    }    
 
         public function updateStock(Request $request, $id)
     {

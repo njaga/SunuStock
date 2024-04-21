@@ -53,6 +53,8 @@
                 </div>
             </div>
         </div>
+
+        
     </div>
 </div>
 @endsection
@@ -69,8 +71,16 @@
                     'Content-Type': 'application/json',
                 },
             })
-            .then(response => response.json())
+            .then(response => {
+                if (response.status === 403) {
+                    // Rediriger vers la page d'accueil qui gère les erreurs 403
+                    window.location.href = '{{ route("home") }}';
+                } else {
+                    return response.json();
+                }
+            })
             .then(data => {
+                if (!data) return;
                 console.log(data.message); // Affiche un message de succès
                 window.location.reload(); // Rafraîchir la page pour afficher la liste mise à jour
             })

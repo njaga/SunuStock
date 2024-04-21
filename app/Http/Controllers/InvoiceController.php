@@ -74,10 +74,21 @@ class InvoiceController extends Controller
 
     public function destroy($id)
     {
+        // Trouver la facture à supprimer
         $invoice = Invoice::findOrFail($id);
+    
+        // Vérifier si l'utilisateur connecté est un administrateur
+        if (auth()->user()->role !== 1 && auth()->user()->role !== 'admin') {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+    
+        // Supprimer la facture de la base de données
         $invoice->delete();
+    
+        // Rediriger vers la page des factures avec un message de succès
         return redirect()->route('invoices.index')->with('success', 'Facture supprimée avec succès.');
     }
+    
 
     private function generateInvoiceNumber()
     {

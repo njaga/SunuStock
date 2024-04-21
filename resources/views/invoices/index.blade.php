@@ -38,7 +38,7 @@
                             @foreach ($invoices as $invoice)
                             <tr data-invoice-id="{{ $invoice->id }}">
                                 <td>{{ $invoice->invoice_number }}</td>
-                                <td>{{ $invoice->client->name }}</td>
+                                <td>{{ optional($invoice->client)->name }}</td>
                                 <td>{{ $invoice->invoice_date }}</td>
                                 <td>{{ $invoice->items->sum(function($item) {
                                     return $item->quantity * $item->unit_price;
@@ -56,6 +56,13 @@
                 </div>
             </div>
         </div>
+
+        <!-- Alert message -->
+        <div class="col-md-9 ml-sm-auto col-lg-10 px-md-4 py-md-5">
+            <div id="alertMessage" class="alert alert-danger" style="display: none;">
+                Vous n'êtes pas autorisé à supprimer cette facture.
+            </div>
+        </div>
     </div>
 </div>
 @endsection
@@ -63,7 +70,7 @@
 @push('scripts')
 <script>
     function deleteInvoice(invoiceId) {
-        if (confirm("Êtes-vous sûr de vouloir supprimer cette facture?")) {
+        if (confirm("Êtes-vous sûr de vouloir supprimer cette facture ?")) {
             fetch(`/invoices/${invoiceId}`, {
                 method: 'DELETE',
                 headers: {
@@ -72,8 +79,16 @@
                     'Content-Type': 'application/json',
                 },
             })
-            .then(response => response.json())
+            .then(response => {
+                if (response.status === 403) {
+                    // Rediriger vers la page d'accueil qui gère les erreurs 403
+                    window.location.href = '{{ route("home") }}';
+                } else {
+                    return response.json();
+                }
+            })
             .then(data => {
+                if (!data) return;
                 console.log(data.message); // Affiche un message de succès
                 window.location.reload(); // Rafraîchir la page pour afficher la liste mise à jour
             })

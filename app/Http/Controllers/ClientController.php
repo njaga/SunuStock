@@ -127,12 +127,20 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        // Récupérer le client spécifié depuis la base de données et le supprimer
+        // Vérifier si l'utilisateur connecté est un administrateur
+        if (auth()->user()->role !== 1 && auth()->user()->role !== 'admin') {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+    
+        // Trouver le client à supprimer dans la base de données
         $client = Client::findOrFail($id);
+    
+        // Supprimer le client
         $client->delete();
-
+    
         // Rediriger avec un message de succès
         return redirect()->route('clients.index')->with('success', 'Client supprimé avec succès.');
     }
+    
 }
 

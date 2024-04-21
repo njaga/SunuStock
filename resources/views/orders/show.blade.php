@@ -152,7 +152,8 @@
         <div class="invoice-header">
             <img src="{{ asset('assets/img/logo-vigilus.png') }}" alt="Logo de l'entreprise">
             <div>
-                <h2>BON DE COMMANDE {{ $order->order_number }}</h2>
+                <h2>BON DE COMMANDE </h2>
+                <h4>N° {{ $order->order_number }}</h4>
                 <p>Date: {{ $order->order_date }}</p>
             </div>
         </div>

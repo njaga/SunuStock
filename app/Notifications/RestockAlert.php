@@ -4,14 +4,14 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Notifications\Messages\MailMessage;
 
 class RestockAlert extends Notification
 {
     use Queueable;
 
-    private $product;
+    protected $product;
 
     public function __construct($product)
     {
@@ -20,14 +20,14 @@ class RestockAlert extends Notification
 
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail']; // Envoyer l'alerte par e-mail
     }
 
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject('Alerte de réapprovisionnement')
-                    ->line('Le produit ' . $this->product->name . ' nécessite un réapprovisionnement.')
-                    ->action('Voir le produit', url('/products/' . $this->product->id));
+            ->subject('Alerte de réapprovisionnement : ' . $this->product->name)
+            ->line('Le stock du produit ' . $this->product->name . ' est faible.')
+            ->action('Voir le produit', url('/products/' . $this->product->id));
     }
 }
