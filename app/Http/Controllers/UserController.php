@@ -30,7 +30,7 @@ class UserController extends Controller
     public function create()
     {
         // Vérifiez si l'utilisateur connecté est un administrateur
-        if (auth()->user()->role !== 1) {
+        if (auth()->user()->role !== 1 && auth()->user()->role !== 'admin') {
             // Redirigez l'utilisateur vers une autre page ou affichez un message d'erreur
             return redirect()->route('home')->with('error', 'Vous n\'êtes pas autorisé à accéder à cette page.');
         }
@@ -73,6 +73,12 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+        // Vérifier si l'utilisateur connecté est un administrateur
+        if (auth()->user()->role !== 1 && auth()->user()->role !== 'admin') {
+            // Redirigez l'utilisateur vers une autre page ou affichez un message d'erreur
+            return redirect()->route('home')->with('error', 'Vous n\'êtes pas autorisé à accéder à cette page.');
+        }
+
         // Récupérer l'utilisateur à éditer depuis la base de données
         $user = User::findOrFail($id);
 
@@ -89,6 +95,12 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // Vérifier si l'utilisateur connecté est un administrateur
+        if (auth()->user()->role !== 1 && auth()->user()->role !== 'admin') {
+            // Redirigez l'utilisateur vers une autre page ou affichez un message d'erreur
+            return redirect()->route('home')->with('error', 'Vous n\'êtes pas autorisé à accéder à cette page.');
+        }
+
         $request->validate([
             'name' => 'required',
             'email' => 'required|email',
@@ -113,6 +125,12 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+        // Vérifier si l'utilisateur connecté est un administrateur
+        if (auth()->user()->role !== 1 && auth()->user()->role !== 'admin') {
+            // Redirigez l'utilisateur vers une autre page ou affichez un message d'erreur
+            return redirect()->route('home')->with('error', 'Vous n\'êtes pas autorisé à accéder à cette page.');
+        }
+
         // Trouver l'utilisateur à supprimer dans la base de données
         $user = User::findOrFail($id);
 

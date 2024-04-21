@@ -5,10 +5,10 @@
 
     <style>
         .product-image {
-    width: 100%; /* Définir la largeur de l'image à 100% */
-    height: 200px; /* Définir la hauteur de l'image selon vos préférences */
-    object-fit: cover; /* Assurez-vous que l'image est entièrement couverte */
-}
+            width: 100%; /* Définir la largeur de l'image à 100% */
+            height: 200px; /* Définir la hauteur de l'image selon vos préférences */
+            object-fit: cover; /* Assurez-vous que l'image est entièrement couverte */
+        }
     </style>
 </head>
 
@@ -53,6 +53,7 @@
 </div>
 @endsection
 
+@push('scripts')
 <script>
     function deleteProduct(id) {
         if (confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')) {
@@ -64,15 +65,29 @@
                     'Content-Type': 'application/json',
                 },
             })
-            .then(response => response.json())
+            .then(response => {
+                if (response.status === 403) {
+                    // Afficher le message d'alerte
+                    showAlert('Vous n\'êtes pas autorisé à supprimer ce produit.');
+                } else {
+                    return response.json();
+                }
+            })
             .then(data => {
+                if (!data) return;
                 console.log(data.message);
                 window.location.reload();
             })
             .catch(error => console.error('Erreur:', error));
         }
     }
+
+    // Fonction pour afficher l'alerte rouge
+    function showAlert(message) {
+        const alertBox = document.createElement('div');
+        alertBox.className = 'alert alert-danger';
+        alertBox.textContent = message;
+        document.querySelector('.container-fluid').prepend(alertBox);
+    }
 </script>
-
-
-
+@endpush

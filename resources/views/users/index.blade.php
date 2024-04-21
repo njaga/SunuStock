@@ -8,6 +8,13 @@
 
 @section('content')
 <div class="container-fluid">
+    <!-- Alert box for error message -->
+    @if(session('error'))
+    <div class="alert alert-danger" role="alert">
+        {{ session('error') }}
+    </div>
+    @endif
+    
     <div class="row">
         @include('components.sidebar')
 
@@ -66,13 +73,29 @@
                     'Content-Type': 'application/json',
                 },
             })
-            .then(response => response.json())
+            .then(response => {
+                if (response.status === 403) {
+                    // Afficher le message d'erreur en utilisant une alerte rouge
+                    showAlert('Vous n\'êtes pas autorisé à supprimer cet utilisateur.');
+                } else {
+                    return response.json();
+                }
+            })
             .then(data => {
+                if (!data) return;
                 console.log(data.message); // Affiche un message de succès
                 window.location.reload(); // Rafraîchir la page pour afficher la liste mise à jour
             })
             .catch(error => console.error('Erreur:', error));
         }
+    }
+
+    // Fonction pour afficher l'alerte rouge
+    function showAlert(message) {
+        const alertBox = document.createElement('div');
+        alertBox.className = 'alert alert-danger';
+        alertBox.textContent = message;
+        document.querySelector('.container-fluid').prepend(alertBox);
     }
 </script>
 @endpush
