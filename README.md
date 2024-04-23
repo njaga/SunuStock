@@ -1,66 +1,75 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<p align="center"><a href="https://www.sunu-stock.ndiagandiaye.com/" target="_blank"><img src="https://www.sunu-stock.ndiagandiaye.com/wp-content/uploads/2024/04/cropped-sunu_stock_logo-removebg-preview.png" width="400" alt="Logo de Sunu Stock"></a></p>
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+<a href="https://github.com/njaga/SunuStock"><img src="https://img.shields.io/github/stars/njaga/SunuStock" alt="Étoiles GitHub"></a>
+<a href="https://github.com/njaga/SunuStock"><img src="https://img.shields.io/github/forks/njaga/SunuStock" alt="Forks GitHub"></a>
+<a href="https://github.com/njaga/SunuStock"><img src="https://img.shields.io/github/license/njaga/SunuStock" alt="Licence"></a>
 </p>
 
-## About Laravel
+## À propos de notre logiciel de gestion de stock
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Ce logiciel de gestion de stock est un projet collaboratif développé par des étudiants de niveau L3 à HEMI dans le cadre de leur mémoire. Il est conçu pour offrir un système robuste, efficace et convivial pour la gestion des niveaux de stock, des commandes et du catalogage des produits dans un environnement d'entreprise.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Caractéristiques clés :
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Gestion efficace des stocks :** Suivi facile des niveaux de stock, gestion des réapprovisionnements et optimisation de la manipulation des stocks.
+- **Traitement des commandes :** Processus simplifié de saisie, de suivi et de réalisation des commandes.
+- **Catalogage des produits :** Interface intuitive pour la gestion des détails des produits, des catégories et des spécifications.
+- **Outils de reporting :** Rapports complets offrant des perspectives sur les tendances des ventes, les niveaux de stock et le statut des commandes.
+- **Accès multi-utilisateur :** Contrôle d'accès basé sur les rôles pour gérer efficacement les permissions des utilisateurs.
 
-## Learning Laravel
+Notre logiciel utilise les dernières technologies web pour garantir une expérience utilisateur fluide et évolutive, notamment PHP avec Laravel, Bootstrap, CSS, DomPDF, JavaScript et Chart.js.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Apprendre à propos de notre projet
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Notre documentation complète du projet [ici](https://github.com/njaga/SunuStock#readme) inclut tout, des guides d'installation aux aperçus des fonctionnalités, rendant facile pour quiconque de comprendre et d'utiliser efficacement notre logiciel.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Intéressé à contribuer ? Consultez notre [dépôt GitHub](https://github.com/njaga/SunuStock) !
 
-## Laravel Sponsors
+## Guide d'installation et de déploiement
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Installation locale
 
-### Premium Partners
+1. **Cloner le dépôt GitHub :** Commencez par cloner le dépôt GitHub sur votre machine locale en utilisant la commande suivante dans votre terminal : <br>
+git clone https://github.com/njaga/SunuStock.git
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+2. **Installer les dépendances :** Naviguez vers le répertoire fraîchement cloné et installez les dépendances en exécutant la commande suivante : <br>
+cd SunuStock <br>
+composer install
 
-## Contributing
+4. **Configurer l'environnement :** Créez un fichier `.env` à la racine du projet en copiant `.env.example` et configurez les variables d'environnement nécessaires telles que les informations de connexion à la base de données.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+5. **Générer la clé d'application :** Exécutez la commande suivante pour générer une nouvelle clé d'application :<br>
+php artisan key:generate
 
-## Code of Conduct
+6. **Migrer la base de données :** Exécutez les migrations pour créer les tables de base de données en utilisant la commande suivante :<br>
+php artisan migrate
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+7. **Lancer l'application :** Lancez l'application en utilisant la commande suivante :<br>
+php artisan serve
 
-## Security Vulnerabilities
+8. **Accéder à l'application :** L'application sera maintenant accessible à l'adresse suivante dans votre navigateur web : <br> `http://localhost:8000`.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Déploiement en production
 
-## License
+Pour le déploiement en production, veuillez suivre les étapes recommandées pour déployer une application Laravel.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Remerciements à nos sponsors et supporters
+
+Nous sommes reconnaissants pour le soutien de HEMI et de Vigilus qui ont fourni des conseils et des ressources, aidant à faire de ce projet un succès.
+
+## Contribuer
+
+Vous souhaitez contribuer à notre logiciel de gestion de stock ? Nous accueillons les contributions d'autres étudiants et membres du corps professoral. Retrouvez nos directives de contribution sur notre [page GitHub](https://github.com/njaga/SunuStock#contributing).
+
+## Code de conduite
+
+Pour maintenir une communauté accueillante et inclusive, veuillez lire et respecter notre [Code de conduite](https://github.com/njaga/SunuStock#code-of-conduct).
+
+## Vulnérabilités de sécurité
+
+Si vous découvrez une vulnérabilité de sécurité, veuillez nous en informer via [notre email](mailto:sunu-stock@ndiagandiaye.com). Nous aborderons ces problèmes promptement.
+
+## Licence
+
+Ce logiciel de gestion de stock est un logiciel open-source disponible sous la [licence MIT](https://opensource.org/licenses/MIT).
