@@ -6,9 +6,16 @@ use Illuminate\Http\Request;
 use App\Models\Invoice;
 use App\Models\Client;
 use App\Models\Product;
+use Illuminate\Support\Facades\DB;
 
 class InvoiceController extends Controller
 {
+    public function index()
+    {
+        $invoices = Invoice::all();
+        return view('invoices.index', compact('invoices'));
+    }
+
     public function show($id)
     {
         $invoice = Invoice::with('client', 'items.product')->findOrFail($id);
@@ -32,63 +39,101 @@ class InvoiceController extends Controller
             'items.*.product_id' => 'required|exists:products,id',
             'items.*.quantity' => 'required|integer|min:1',
             'items.*.unit_price' => 'required|numeric|min:0.01',
-            'total_amount' => 'required|numeric|min:0.01', // Ajout de la validation pour total_amount
+            'total_amount' => 'required|numeric|min:0.01',
         ]);
 
-        $invoiceNumber = $this->generateInvoiceNumber();
+        DB::beginTransaction();
+        try {
+            $invoiceNumber = $this->generateInvoiceNumber();
+            $invoice = Invoice::create(array_merge(
+                $request->only(['client_id', 'invoice_date', 'due_date', 'total_amount']),
+                ['invoice_number' => $invoiceNumber]
+            ));
 
-        $invoice = Invoice::create(array_merge(
-            $request->only(['client_id', 'invoice_date', 'due_date', 'total_amount']), // Ajout de 'total_amount'
-            ['invoice_number' => $invoiceNumber]
-        ));
+            foreach ($request->items as $item) {
+                $product = Product::findOrFail($item['product_id']);
+                if ($product->quantity < $item['quantity']) {
+                    throw new \Exception('La quantité commandée pour ' . $product->name . ' dépasse la quantité disponible en stock.');
+                }
 
-        // Ajouter les éléments de la facture
-        foreach ($request->items as $item) {
-            $product = Product::findOrFail($item['product_id']);
-
-            // Vérifier si la quantité en stock est suffisante
-            if ($product->quantity < $item['quantity']) {
-                return redirect()->back()->with('error', 'La quantité commandée pour ' . $product->name . ' dépasse la quantité disponible en stock.');
+                $product->decrement('quantity', $item['quantity']);
+                $invoice->items()->create([
+                    'product_id' => $product->id,
+                    'quantity' => $item['quantity'],
+                    'unit_price' => $item['unit_price'],
+                ]);
             }
 
-            // Déduire la quantité commandée du stock disponible
-            $product->decrement('quantity', $item['quantity']);
-
-            // Créer l'élément de la facture
-            $invoice->items()->create([
-                'product_id' => $product->id,
-                'quantity' => $item['quantity'],
-                'unit_price' => $item['unit_price'],
-            ]);
+            DB::commit();
+            return redirect()->route('invoices.show', $invoice->id)
+                             ->with('success', 'Facture créée avec succès. Numéro de facture : ' . $invoiceNumber);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', $e->getMessage());
         }
-
-        return redirect()->route('invoices.show', $invoice->id)
-                         ->with('success', 'Facture créée avec succès. Numéro de facture : ' . $invoiceNumber);
     }
 
-    public function index()
+    public function edit(Invoice $invoice)
     {
-        $invoices = Invoice::all();
-        return view('invoices.index', compact('invoices'));
+        $clients = Client::all();
+        $products = Product::all();
+        return view('invoices.edit', compact('invoice', 'clients', 'products'));
+    }
+
+    public function update(Request $request, Invoice $invoice)
+    {
+        $request->validate([
+            'client_id' => 'required|exists:clients,id',
+            'invoice_date' => 'required|date',
+            'due_date' => 'required|date|after_or_equal:invoice_date',
+            'items' => 'required|array|min:1',
+            'items.*.product_id' => 'required|exists:products,id',
+            'items.*.quantity' => 'required|integer|min:1',
+            'items.*.unit_price' => 'required|numeric|min:0.01',
+            'total_amount' => 'required|numeric|min:0.01',
+        ]);
+
+        DB::beginTransaction();
+        try {
+            $invoice->update($request->only(['client_id', 'invoice_date', 'due_date', 'total_amount']));
+
+            // Supprimer les anciens items
+            $invoice->items()->delete();
+
+            foreach ($request->items as $item) {
+                $product = Product::findOrFail($item['product_id']);
+                if ($product->quantity < $item['quantity']) {
+                    throw new \Exception('La quantité commandée pour ' . $product->name . ' dépasse la quantité disponible en stock.');
+                }
+
+                $product->decrement('quantity', $item['quantity']);
+                $invoice->items()->create([
+                    'product_id' => $product->id,
+                    'quantity' => $item['quantity'],
+                    'unit_price' => $item['unit_price'],
+                ]);
+            }
+
+            DB::commit();
+            return redirect()->route('invoices.show', $invoice->id)
+                             ->with('success', 'Facture mise à jour avec succès.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     public function destroy($id)
     {
-        // Trouver la facture à supprimer
         $invoice = Invoice::findOrFail($id);
-    
-        // Vérifier si l'utilisateur connecté est un administrateur
+
         if (auth()->user()->role !== 1 && auth()->user()->role !== 'admin') {
             return response()->json(['error' => 'Unauthorized'], 403);
         }
-    
-        // Supprimer la facture de la base de données
+
         $invoice->delete();
-    
-        // Rediriger vers la page des factures avec un message de succès
         return redirect()->route('invoices.index')->with('success', 'Facture supprimée avec succès.');
     }
-    
 
     private function generateInvoiceNumber()
     {

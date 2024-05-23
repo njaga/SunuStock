@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\Invoice;
 use App\Models\Client;
 use App\Models\Supplier;
+use App\Models\Order;
 use Carbon\Carbon;
 
 class StockController extends Controller
@@ -26,15 +27,14 @@ class StockController extends Controller
         // Récupérer le total du stock
         $totalStock = Stock::sum('quantity');
 
-        // Récupérer les données pour le graphique des entrées et sorties de stock par mois
-        $stockEntries = Stock::where('created_at', '>=', Carbon::now()->subMonths(6))->get()->groupBy(function ($entry) {
-            return Carbon::parse($entry->created_at)->format('F Y'); // Grouper par mois et année
-        })->map(function ($entries) {
-            return $entries->sum('quantity'); // Somme des entrées de stock pour chaque mois
-        });
+        // Récupérer les données pour le graphique des entrées de stock par mois basé sur les bons de commande
+        $stockEntries = Order::where('created_at', '>=', Carbon::now()->subMonths(6))
+            ->selectRaw('DATE_FORMAT(created_at, "%M %Y") as month, SUM(total_price) as total')
+            ->groupBy('month')
+            ->pluck('total', 'month');
 
         // Récupérer les données pour le graphique du produit le plus présent en stock
-        $mostPresentProduct = $products->max('quantity');
+        $mostPresentProduct = $products->sortByDesc('quantity')->first();
 
         // Récupérer les données pour le graphique de répartition des produits par catégorie
         $productsByCategory = Product::selectRaw('category_id, count(*) as product_count')->groupBy('category_id')->get();
@@ -55,10 +55,9 @@ class StockController extends Controller
         // Récupérer les données des clients
         $clients = Client::all();
 
-        // Récupérer les données des fournisseurs
-        $suppliers = Supplier::all();
+        // Récupérer les données des fournisseurs avec le nombre de produits
+        $suppliers = Supplier::withCount('products')->get();
 
         return view('stocks.index', compact('products', 'totalStock', 'stockEntries', 'mostPresentProduct', 'productsByCategory', 'salesByMonth', 'clients', 'suppliers'));
     }
-
 }

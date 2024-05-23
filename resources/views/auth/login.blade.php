@@ -73,7 +73,7 @@
                 <h2>Connexion</h2>
                 @if($errors->any())
                     <div class="error-message">
-                        {{ __('auth.failed') }} <!-- Ensure this key exists in resources/lang/fr/auth.php -->
+                        {{ __('auth.failed') }}
                     </div>
                 @endif
                 <div class="form-group">

@@ -10,13 +10,32 @@ use App\Models\Supplier;
 use App\Notifications\RestockAlert;
 use Illuminate\Support\Facades\Notification;
 
-
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::all();
-        return view('products.index', compact('products'));
+        $query = Product::query();
+    
+        // Filtrage par nom du produit
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+    
+        // Filtrage par catégorie
+        if ($request->filled('category')) {
+            $query->where('category_id', $request->category);
+        }
+    
+        // Filtrage par prix
+        if ($request->filled('min_price') && $request->filled('max_price')) {
+            $query->whereBetween('price', [$request->min_price, $request->max_price]);
+        }
+    
+        $viewMode = $request->query('view', 'grid');
+        $products = $query->paginate(10);
+        $categories = Category::all();
+    
+        return view('products.index', compact('products', 'categories', 'viewMode'));
     }
 
     public function show($id)
@@ -27,8 +46,8 @@ class ProductController extends Controller
 
     public function create()
     {
-        $categories = Category::all(); // Récupérez toutes les catégories disponibles
-        $suppliers = Supplier::all(); // Récupérez tous les fournisseurs disponibles
+        $categories = Category::all();
+        $suppliers = Supplier::all();
         return view('products.create', compact('categories', 'suppliers'));
     }
 
@@ -40,9 +59,9 @@ class ProductController extends Controller
             'description' => 'required',
             'price' => 'required|numeric',
             'quantity' => 'required|numeric',
-            'category_id' => 'required|exists:categories,id', // Assurez-vous que la catégorie sélectionnée existe
-            'supplier_id' => 'required|exists:suppliers,id', // Assurez-vous que le fournisseur sélectionné existe
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validation de l'image (facultatif)
+            'category_id' => 'required|exists:categories,id',
+            'supplier_id' => 'required|exists:suppliers,id',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         // Créer un nouveau produit avec les données du formulaire
@@ -51,8 +70,8 @@ class ProductController extends Controller
             'description' => $request->description,
             'price' => $request->price,
             'quantity' => $request->quantity,
-            'category_id' => $request->category_id, // Enregistrez l'ID de la catégorie sélectionnée
-            'supplier_id' => $request->supplier_id, // Enregistrez l'ID du fournisseur sélectionné
+            'category_id' => $request->category_id,
+            'supplier_id' => $request->supplier_id,
         ]);
 
         // Enregistrez l'image si elle est téléchargée
@@ -72,8 +91,8 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::findOrFail($id);
-        $categories = Category::all(); // Récupérez toutes les catégories disponibles
-        $suppliers = Supplier::all(); // Récupérez tous les fournisseurs disponibles
+        $categories = Category::all();
+        $suppliers = Supplier::all();
         return view('products.edit', compact('product', 'categories', 'suppliers'));
     }
 
@@ -85,9 +104,9 @@ class ProductController extends Controller
             'description' => 'required',
             'price' => 'required|numeric',
             'quantity' => 'required|numeric',
-            'category_id' => 'required|exists:categories,id', 
-            'supplier_id' => 'required|exists:suppliers,id', 
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', 
+            'category_id' => 'required|exists:categories,id',
+            'supplier_id' => 'required|exists:suppliers,id',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         // Trouver le produit à mettre à jour
@@ -99,8 +118,8 @@ class ProductController extends Controller
             'description' => $request->description,
             'price' => $request->price,
             'quantity' => $request->quantity,
-            'category_id' => $request->category_id, 
-            'supplier_id' => $request->supplier_id, 
+            'category_id' => $request->category_id,
+            'supplier_id' => $request->supplier_id,
         ]);
 
         // Mettre à jour l'image si une nouvelle image est téléchargée
@@ -109,7 +128,7 @@ class ProductController extends Controller
             if ($product->image) {
                 Storage::delete('images/' . $product->image);
             }
-            
+
             // Télécharger la nouvelle image et mettre à jour le chemin dans la base de données
             $imageName = time() . '.' . $request->image->extension();
             $request->image->move(public_path('images'), $imageName);
@@ -138,17 +157,17 @@ class ProductController extends Controller
         // Supprimer le produit de la base de données
         $product->delete();
     
-        // Rediriger vers la page des produits avec un message de succès
-        return redirect()->route('products.index')->with('success', 'Produit supprimé avec succès.');
+        // Return JSON response for success
+        return response()->json(['message' => 'Produit supprimé avec succès.'], 200);
     }    
 
-        public function updateStock(Request $request, $id)
+    public function updateStock(Request $request, $id)
     {
         $product = Product::findOrFail($id);
-        $oldStock = $product->stock;
-        $newStock = $request->stock;
+        $oldStock = $product->quantity;  // Corrected to use quantity instead of stock
+        $newStock = $request->quantity;  // Corrected to use quantity instead of stock
 
-        $product->stock = $newStock;
+        $product->quantity = $newStock;
         $product->save();
 
         // Vérifier si le niveau de stock est inférieur ou égal au seuil de réapprovisionnement

@@ -23,25 +23,27 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FilesController;
 use App\Http\Controllers\EntrepriseController;
-use Illuminate\Support\Facades\Storage; 
+use Illuminate\Support\Facades\Storage;
 
-// Authentication Routes
+// Route pour rediriger l'URL racine vers le tableau de bord
 Route::get('/', function () {
-    return view('auth.login');
+    return redirect('/dashboard');
 })->name('login');
+
+// Routes d'authentification
 Auth::routes();
 
-// Authenticated routes
+// Routes accessibles uniquement aux utilisateurs authentifiés
 Route::middleware('auth')->group(function () {
-    // Home
+    // Page d'accueil
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-    // User Profile
+    // Profil utilisateur
     Route::get('/profile', function () {
         return view('users.profile');
     })->name('profile');
 
-    // Dashboard and Resources
+    // Tableau de bord et autres ressources
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('suppliers', SupplierController::class);
     Route::resource('users', UserController::class);
@@ -60,17 +62,24 @@ Route::middleware('auth')->group(function () {
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::post('/settings/update', [SettingsController::class, 'update'])->name('settings.update');
     Route::get('/billing', [BillingController::class, 'index'])->name('billing');
+    
+    // Route pour la suppression des produits
+    Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
 
-    // User profile routes
+    // Edition et mise à jour des fournisseurs
+    Route::get('/suppliers/{supplier}/edit', [SupplierController::class, 'edit'])->name('suppliers.edit');
+    Route::put('/suppliers/{supplier}', [SupplierController::class, 'update'])->name('suppliers.update');
+
+    // Routes pour le profil utilisateur
     Route::get('/profil', [UserProfileController::class, 'index'])->name('profil.index');
     Route::put('/profil/update', [UserProfileController::class, 'update'])->name('profil.update');
     Route::delete('/profil/delete', [UserProfileController::class, 'delete'])->name('profil.delete');
 
-    // Enterprise information
+    // Informations sur l'entreprise
     Route::get('/entreprise/edit', [EntrepriseController::class, 'edit'])->name('entreprise.edit');
     Route::post('/entreprise/update', [EntrepriseController::class, 'update'])->name('entreprise.update');
 
-    // Serve logo files
+    // Servir les fichiers de logo
     Route::get('/logos/{filename}', function ($filename) {
         $path = storage_path('app/public/logos/' . $filename);
         if (!File::exists($path)) {
@@ -80,8 +89,13 @@ Route::middleware('auth')->group(function () {
         $type = File::mimeType($path);
         return response($file, 200)->header("Content-Type", $type);
     })->name('logo.file');
-
 });
 
-// Logout Route
+// Route pour la déconnexion
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+// Routes pour la réinitialisation du mot de passe
+Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
