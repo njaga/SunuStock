@@ -4,6 +4,9 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5+z7GmG/EAkqjG8anssAPtUy3K8pDxfOgY8yJ0Bb" crossorigin="anonymous"></script>
     <script src="{{ asset('js/app.js') }}"></script>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5+z7GmG/EAkqjG8anssAPtUy3K8pDxfOgY8yJ0Bb" crossorigin="anonymous"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
+
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
@@ -41,6 +44,7 @@
                             @foreach ($orders as $order)
                             <tr data-order-id="{{ $order->id }}">
                                 <td>{{ $order->order_number ?? 'N/A'}}</td>
+                                <td>{{ $order->order_number ?? 'N/A'}}</td>
                                 <td>{{ $order->supplier->name ?? 'Fournisseur inconnu' }}</td>
                                 <td>{{ $order->order_date }}</td>
                                 <td>{{ $order->total_price ?? 'N/A'}}</td>
@@ -56,6 +60,14 @@
                 </div>
             </div>
         </div>
+
+        <!-- Alert message -->
+        <div class="col-md-9 ml-sm-auto col-lg-10 px-md-4 py-md-5">
+            <div id="alertMessage" class="alert alert-danger" style="display: none;">
+                Vous n'êtes pas autorisé à supprimer cette commande.
+            </div>
+        </div>
+  
 
         <!-- Alert message -->
         <div class="col-md-9 ml-sm-auto col-lg-10 px-md-4 py-md-5">
@@ -96,6 +108,7 @@
                 }
             })
             .then(data => {
+                if (!data) return;
                 if (!data) return;
                 console.log(data.message); // Affiche un message de succès
                 window.location.reload(); // Rafraîchir la page pour afficher la liste mise à jour

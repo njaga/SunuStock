@@ -28,6 +28,13 @@ class OrderController extends Controller
         $products = Product::all();
         return view('orders.create', compact('suppliers', 'products'));
     }
+    public function edit($id)
+    {
+        $suppliers = Supplier::all();
+        $products = Product::all();
+        return view('orders.edit', compact('suppliers', 'products'));
+    }
+
 
     public function store(Request $request)
     {
@@ -40,11 +47,15 @@ class OrderController extends Controller
         ]);
 
         $orderNumber = 'ORD' . date('Y') . str_pad(Order::count() + 1, 4, '0', STR_PAD_LEFT);
+
+
+        $orderNumber = 'ORD' . date('Y') . str_pad(Order::count() + 1, 4, '0', STR_PAD_LEFT);
         $order = Order::create([
             'supplier_id' => $validated['supplier_id'],
             'order_date' => $validated['order_date'],
             'order_number' => $orderNumber,
         ]);
+
 
         foreach ($request->items as $item) {
             $order->items()->create($item);
@@ -53,19 +64,5 @@ class OrderController extends Controller
         $order->calculateTotalPrice();
 
         return redirect()->route('orders.index')->with('success', 'Commande créée avec succès.');
-    }
-
-    public function destroy($id)
-    {
-        $order = Order::findOrFail($id);
-
-        // Vérification du rôle de l'utilisateur pour l'autorisation
-        if (auth()->user()->role !== 1 && auth()->user()->role !== 'admin') {
-            return response()->json(['error' => 'Unauthorized'], 403);
-        }
-
-        $order->delete();
-
-        return redirect()->route('orders.index')->with('success', 'Commande supprimée avec succès.');
     }
 }

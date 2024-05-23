@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\File;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\SupplierController;
-use App\Http\Controllers\Auth\LoginController; 
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StockController;
@@ -90,6 +90,12 @@ Route::middleware('auth')->group(function () {
         return response($file, 200)->header("Content-Type", $type);
     })->name('logo.file');
 });
+
+// Route::get('/orders/{id}/edit', 'OrderController@edit')->name('orders.edit');
+// Route::put('/orders/{id}', 'OrderController@update')->name('orders.update');
+
+// Route::get('/orders/{id}/edit', 'OrderController@edit')->name('orders.edit');
+// Route::put('/orders/{id}', 'OrderController@update')->name('orders.update');
 
 // Route pour la déconnexion
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');

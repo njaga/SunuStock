@@ -1,4 +1,5 @@
 <p align="center"><a href="https://www.sunu-stock.ndiagandiaye.com/" target="_blank"><img src="https://www.sunu-stock.ndiagandiaye.com/wp-content/uploads/2024/04/cropped-sunu_stock_logo-removebg-preview.png" width="400" alt="Logo de Sunu Stock"></a></p>
+<p align="center"><a href="https://www.sunu-stock.ndiagandiaye.com/" target="_blank"><img src="https://www.sunu-stock.ndiagandiaye.com/wp-content/uploads/2024/04/cropped-sunu_stock_logo-removebg-preview.png" width="400" alt="Logo de Sunu Stock"></a></p>
 
 <p align="center">
 <a href="https://github.com/njaga/SunuStock/actions"><img src="https://github.com/njaga/SunuStock/workflows/tests/badge.svg" alt="Statut des Tests"></a>
