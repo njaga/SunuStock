@@ -2,7 +2,7 @@
 <p align="center">
 <a href="https://github.com/njaga/SunuStock"><img src="https://img.shields.io/github/stars/njaga/SunuStock" alt="Étoiles GitHub"></a>
 <a href="https://github.com/njaga/SunuStock"><img src="https://img.shields.io/github/forks/njaga/SunuStock" alt="Forks GitHub"></a>
-<a href="https://github.com/njaga/SunuStock"><img src="https://img.shields.io/github/license/njaga/SunuStock" alt="Licence"></a>
+<a href="https://github.com/njaga/SunuStock?tab=License-1-ov-file"><img src="https://img.shields.io/github/license/njaga/SunuStock" alt="Licence"></a>
 </p>
 
 ## À propos de notre logiciel de gestion de stock
