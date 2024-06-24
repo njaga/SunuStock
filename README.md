@@ -7,7 +7,7 @@
 
 ## À propos de notre logiciel de gestion de stock
 
-Ce logiciel de gestion de stock est un projet collaboratif développé par des étudiants de niveau L3 à l'[Nom de votre université] dans le cadre de leur mémoire. Il est conçu pour offrir un système robuste, efficace et convivial pour la gestion des niveaux de stock, des commandes et du catalogage des produits dans un environnement d'entreprise.
+Ce logiciel de gestion de stock est un projet collaboratif développé par des étudiants de niveau L3 dans le cadre de leur mémoire. Il est conçu pour offrir un système robuste, efficace et convivial pour la gestion des niveaux de stock, des commandes et du catalogage des produits dans un environnement d'entreprise.
 
 Caractéristiques clés :
 
