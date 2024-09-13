@@ -1,46 +1,120 @@
-<p align="center"><a href="https://www.sunu-stock.ndiagandiaye.com/" target="_blank"><img src="https://www.sunu-stock.ndiagandiaye.com/wp-content/uploads/2024/04/cropped-sunu_stock_logo-removebg-preview.png" width="400" alt="Logo de Sunu Stock"></a></p>
+# SunuStock - Logiciel de Gestion de Stock
+
 <p align="center">
-<a href="https://github.com/njaga/SunuStock"><img src="https://img.shields.io/github/stars/njaga/SunuStock" alt="Étoiles GitHub"></a>
-<a href="https://github.com/njaga/SunuStock"><img src="https://img.shields.io/github/forks/njaga/SunuStock" alt="Forks GitHub"></a>
-<a href="https://github.com/njaga/SunuStock?tab=License-1-ov-file"><img src="https://img.shields.io/github/license/njaga/SunuStock" alt="Licence"></a>
+  <a href="https://www.sunu-stock.ndiagandiaye.com/" target="_blank">
+    <img src="https://www.sunu-stock.ndiagandiaye.com/wp-content/uploads/2024/04/cropped-sunu_stock_logo-removebg-preview.png" width="400" alt="Logo de Sunu Stock">
+  </a>
 </p>
 
-## À propos de notre logiciel de gestion de stock
+<p align="center">
+  <a href="https://github.com/njaga/SunuStock"><img src="https://img.shields.io/github/stars/njaga/SunuStock" alt="Étoiles GitHub"></a>
+  <a href="https://github.com/njaga/SunuStock"><img src="https://img.shields.io/github/forks/njaga/SunuStock" alt="Forks GitHub"></a>
+</p>
 
-Ce logiciel de gestion de stock est un projet collaboratif développé par des étudiants de niveau L3 dans le cadre de leur mémoire. Il est conçu pour offrir un système robuste, efficace et convivial pour la gestion des niveaux de stock, des commandes et du catalogage des produits dans un environnement d'entreprise.
+## 📋 Table des matières
 
-Caractéristiques clés :
+- [À propos](#-à-propos)
+- [Démonstration](#-démonstration)
+- [Technologies utilisées](#-technologies-utilisées)
+- [Fonctionnalités](#-fonctionnalités)
+- [Installation](#-installation)
+- [Utilisation](#-utilisation)
+- [Documentation](#-documentation)
+- [Contribution](#-contribution)
+- [Licence](#-licence)
+- [Contact](#-contact)
 
-- **Gestion efficace des stocks :** Suivi facile des niveaux de stock, gestion des réapprovisionnements et optimisation de la manipulation des stocks.
-- **Traitement des commandes :** Processus simplifié de saisie, de suivi et de réalisation des commandes.
-- **Catalogage des produits :** Interface intuitive pour la gestion des détails des produits, des catégories et des spécifications.
-- **Outils de reporting :** Rapports complets offrant des perspectives sur les tendances des ventes, les niveaux de stock et le statut des commandes.
-- **Accès multi-utilisateur :** Contrôle d'accès basé sur les rôles pour gérer efficacement les permissions des utilisateurs.
+## 🚀 À propos
 
-Notre logiciel utilise les dernières technologies web pour garantir une expérience utilisateur fluide et évolutive.
+SunuStock est un logiciel de gestion de stock développé par des étudiants de niveau L3 dans le cadre de leur mémoire. Ce projet vise à fournir une solution robuste, efficace et conviviale pour la gestion des stocks, des commandes et du catalogage des produits dans un environnement d'entreprise.
 
-## Apprendre à propos de notre projet
+## 🖥 Démonstration
 
-Notre documentation complète du projet [ici](https://github.com/njaga/SunuStock#readme) inclut tout, des guides d'installation aux aperçus des fonctionnalités, rendant facile pour quiconque de comprendre et d'utiliser efficacement notre logiciel.
+- **Application de démonstration** : [https://app-stock.ndiagandiaye.com/](https://app-stock.ndiagandiaye.com/)
+- **Site web** : [https://www.sunu-stock.ndiagandiaye.com/](https://www.sunu-stock.ndiagandiaye.com/)
+- **Présentation du projet** : [Voir la présentation Canva](https://www.canva.com/design/DAGCHmYyBwY/SD0zxp-ZTIcVZomwgL_WuA/view?utm_content=DAGCHmYyBwY&utm_campaign=designshare&utm_medium=link&utm_source=editor)
+- **Slides du projet** : [Voir les slides Canva](https://www.canva.com/design/DAGGutufnuA/VzpFADV6LMIQtyrglkZiOg/view?utm_content=DAGGutufnuA&utm_campaign=designshare&utm_medium=link&utm_source=editor)
 
-Intéressé à contribuer ? Consultez notre [dépôt GitHub](https://github.com/njaga/SunuStock) !
+## 🛠 Technologies utilisées
 
-## Remerciements à nos sponsors et supporters
+- Laravel
+- MySQL
+- Blade
+- Bootstrap
+- Chart.js
+- DomPDF
 
-Nous sommes reconnaissants pour le soutien d'HEMI et de divers partenaires industriels qui ont fourni des conseils et des ressources, aidant à faire de ce projet un succès.
+## ✨ Fonctionnalités
 
-## Contribuer
+- **Gestion efficace des stocks** : Suivi facile des niveaux de stock, gestion des réapprovisionnements et optimisation de la manipulation des stocks.
+- **Traitement des commandes** : Processus simplifié de saisie, de suivi et de réalisation des commandes.
+- **Catalogage des produits** : Interface intuitive pour la gestion des détails des produits, des catégories et des spécifications.
+- **Outils de reporting** : Rapports complets offrant des perspectives sur les tendances des ventes, les niveaux de stock et le statut des commandes.
+- **Accès multi-utilisateur** : Contrôle d'accès basé sur les rôles pour gérer efficacement les permissions des utilisateurs.
 
-Vous souhaitez contribuer à notre logiciel de gestion de stock ? Nous accueillons les contributions d'autres étudiants et membres du corps professoral. Retrouvez nos directives de contribution sur notre [page GitHub](https://github.com/njaga/SunuStock#contributing).
+## 🚀 Installation
 
-## Code de conduite
+1. Clonez le dépôt :
+   ```
+   git clone https://github.com/njaga/SunuStock.git
+   ```
+2. Naviguez dans le répertoire du projet :
+   ```
+   cd SunuStock
+   ```
+3. Installez les dépendances PHP :
+   ```
+   composer install
+   ```
+4. Installez les dépendances JavaScript :
+   ```
+   npm install
+   ```
+5. Copiez le fichier `.env.example` en `.env` et configurez vos variables d'environnement :
+   ```
+   cp .env.example .env
+   ```
+6. Générez une clé d'application :
+   ```
+   php artisan key:generate
+   ```
+7. Exécutez les migrations de la base de données :
+   ```
+   php artisan migrate
+   ```
+8. (Optionnel) Remplissez la base de données avec des données de test :
+   ```
+   php artisan db:seed
+   ```
 
-Pour maintenir une communauté accueillante et inclusive, veuillez lire et respecter notre [Code de conduite](https://github.com/njaga/SunuStock#code-of-conduct).
+## 💻 Utilisation
 
-## Vulnérabilités de sécurité
+1. Lancez le serveur de développement :
+   ```
+   php artisan serve
+   ```
+2. Compilez les assets :
+   ```
+   npm run dev
+   ```
+3. Accédez à l'application dans votre navigateur à l'adresse `http://localhost:8000`
 
-Si vous découvrez une vulnérabilité de sécurité, veuillez nous en informer via [notre email](mailto:sunu-stock@ndiagandiaye.com). Nous aborderons ces problèmes promptement.
+## 📚 Documentation
 
-## Licence
+Pour une documentation plus détaillée, veuillez consulter notre [Wiki](https://github.com/njaga/SunuStock/wiki) sur GitHub.
 
-Ce logiciel de gestion de stock est un logiciel open-source disponible sous la [licence MIT](https://opensource.org/licenses/MIT).
+## 🤝 Contribution
+
+Les contributions sont les bienvenues ! Veuillez consulter notre [guide de contribution](CONTRIBUTING.md) pour plus de détails.
+
+## 📄 Licence
+
+Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
+
+## 📞 Contact
+
+Pour toute question ou suggestion, n'hésitez pas à nous contacter à [sunu-stock@ndiagandiaye.com](mailto:sunu-stock@ndiagandiaye.com).
+
+---
+
+Développé avec ❤️ par l'équipe SunuStock
