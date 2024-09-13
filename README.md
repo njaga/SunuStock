@@ -27,7 +27,7 @@ Intéressé à contribuer ? Consultez notre [dépôt GitHub](https://github.com/
 
 ## Remerciements à nos sponsors et supporters
 
-Nous sommes reconnaissants pour le soutien de [Nom de votre université] et de divers partenaires industriels qui ont fourni des conseils et des ressources, aidant à faire de ce projet un succès.
+Nous sommes reconnaissants pour le soutien d'HEMI et de divers partenaires industriels qui ont fourni des conseils et des ressources, aidant à faire de ce projet un succès.
 
 ## Contribuer
 
